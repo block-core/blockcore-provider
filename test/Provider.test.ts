@@ -15,10 +15,8 @@ describe("Provider test suit", () => {
   
   afterEach(() => jest.clearAllMocks());
   
-  
   it('should receive and object with data and error', async () => {
     const result = await provider.getSupply();
-    
     expect(result).toMatchObject(someResponse)
   })
 });

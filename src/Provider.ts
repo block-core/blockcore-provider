@@ -7,9 +7,9 @@ export class Provider {
       error?: AxiosError; 
     }
 
-  public constructor() {
-    this.baseUrl = 'http://city.indexer.blockcore.net';
-    this.response  = { data: undefined}
+  public constructor(baseUrl?: string) {
+    this.baseUrl = baseUrl || 'http://city.indexer.blockcore.net';
+    this.response = {data: undefined}
   }
 
   public async getSupply<AxiosResponse>(): Promise<AxiosResponse | undefined> {
@@ -216,9 +216,14 @@ export class Provider {
      
     return this.response as unknown as AxiosResponse;
  }
-  public async getTransactionsById<AxiosResponse>(id: string): Promise<AxiosResponse | undefined> {
 
-    await axios.get(`${this.baseUrl}/api/query/transactions/${id}`)
+  public async getTransactionById<AxiosResponse>(id: string): Promise<AxiosResponse | undefined> {
+    // type TResponse = {
+    //   data: unknown | undefined
+    //   error?: AxiosError; 
+    // }
+    // const response: TResponse  = { data: undefined }
+    await axios.get(`${this.baseUrl}/api/query/transaction/${id}`)
     .then((res) => {
       this.response = {
         data: res.data,
@@ -296,8 +301,12 @@ export class Provider {
     return this.response as unknown as AxiosResponse;
  }
  
-  public async getBLockTransactionsByIndex<AxiosResponse>(index: string): Promise<AxiosResponse | undefined> {
-
+  public async getBlockTransactionsByIndex<AxiosResponse>(index: string): Promise<AxiosResponse | undefined> {
+    // type TResponse = {
+    //   data: unknown | undefined
+    //   error?: AxiosError; 
+    // }
+    // const response: TResponse  = { data: undefined }
     await axios.get(`${this.baseUrl}/api/query/block/index/${index}/transactions`)
     .then((res) => {
       this.response = {

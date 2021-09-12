@@ -41,7 +41,6 @@
     "url": "https://github.com/block-core/blockcore-provider/issues"
   },
   "devDependencies": {
-    "@babel/preset-env": "^7.15.4",
     "@commitlint/cli": "^13.1.0",
     "@commitlint/config-conventional": "^13.1.0",
     "@types/jest": "^26.0.24",
