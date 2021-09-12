@@ -3,8 +3,8 @@ import axios, { AxiosError } from "axios";
 export class Provider {
   private baseUrl: string;
 
-  public constructor() {
-    this.baseUrl = 'http://city.indexer.blockcore.net';
+  public constructor(baseUrl?: string) {
+    this.baseUrl = baseUrl || 'http://city.indexer.blockcore.net';
   }
 
   public async getSupply<AxiosResponse>(): Promise<AxiosResponse | undefined> {
