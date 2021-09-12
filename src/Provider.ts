@@ -228,13 +228,14 @@ export class Provider {
      
     return response as unknown as AxiosResponse;
  }
-  public async getTransactionsById<AxiosResponse>(id: string): Promise<AxiosResponse | undefined> {
+
+  public async getTransactionById<AxiosResponse>(id: string): Promise<AxiosResponse | undefined> {
     type TResponse = {
       data: unknown | undefined
       error?: AxiosError; 
     }
     const response: TResponse  = { data: undefined }
-    await axios.get(`${this.baseUrl}/api/query/transactions/${id}`)
+    await axios.get(`${this.baseUrl}/api/query/transaction/${id}`)
     .then((res) => {
       response.data = res.data;
     })
@@ -313,7 +314,7 @@ export class Provider {
     return response as unknown as AxiosResponse;
  }
  
-  public async getBLockTransactionsByIndex<AxiosResponse>(index: string): Promise<AxiosResponse | undefined> {
+  public async getBlockTransactionsByIndex<AxiosResponse>(index: string): Promise<AxiosResponse | undefined> {
     type TResponse = {
       data: unknown | undefined
       error?: AxiosError; 
