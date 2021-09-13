@@ -8,6 +8,27 @@ The provider also allows connection to be made between web site / web app and th
 
 ## Setup
 
+Install:
+
+```sh
+npm install @blockcore/provider
+```
+
+Example:
+
+```js
+var provider = require("@blockcore/provider");
+var api = new provider.Provider();
+
+api.getCirculatingSupply().then(function (data) {
+    console.log(data);
+});
+```
+
+# Developer Information
+
+## Setup
+
 You need Node.js (v14.x) and TypeScript.
 
 ```sh
