@@ -12,9 +12,8 @@ module.exports = {
       tsconfig: 'tsconfig.json'
     }
   },
-    moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
-    verbose: true,
-    collectCoverage: true,
-    collectCoverageFrom: ['<rootDir>/src/app/**/*.ts'],
-    
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
+  verbose: true,
+  collectCoverage: true,
+  collectCoverageFrom: ['<rootDir>/src/app/**/*.ts'],
 }
