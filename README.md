@@ -12,6 +12,7 @@ You need Node.js (v14.x) and TypeScript.
 
 ```sh
 npm install # If this fails, attempt "npm ci"
+npm post-install # Runs "husky install"
 npm install typescript -g
 ```
 
