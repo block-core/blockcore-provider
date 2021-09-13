@@ -1,3 +1,3 @@
-import { Num } from './Num'
+import { Provider } from './Provider'
 
-export { Num }
+export { Provider }
