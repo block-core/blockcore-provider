@@ -36,6 +36,11 @@ describe("Provider test suit", () => {
   //   return expect(provider.getAddress(getSupplyMock)).resolves.toMatchObject(someResponse);
   // })
 
+  it('should get networks', async () => {
+    let result: any = await provider.getNetworks();
+    expect(result.data[0].symbol).toMatch('BTC');
+  })
+
   it('should get correct network url', async () => {
     let result = await provider.getNetworkUrl('CITY');
     expect(result).toMatch('https://city.indexer.blockcore.net');

@@ -48,6 +48,11 @@ export class Provider {
     return this.baseUrl;
   }
 
+  //** Returns the result from the officially hosted list of Blockcore supported chains. */
+  public getNetworks<AxiosResponse>(): Promise<AxiosResponse | undefined> {
+    return this.executeGet('https://chains.blockcore.net/CHAINS.json')
+  }
+
   public getSupply<AxiosResponse>(): Promise<AxiosResponse | undefined> {
     return this.executeGet(this.baseUrl + "/api/insight/supply")
   }
