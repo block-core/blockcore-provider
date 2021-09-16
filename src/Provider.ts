@@ -26,6 +26,10 @@ export class Provider {
     return this.response as unknown as AxiosResponse;
   }
 
+  public setNetwork(network: string) {
+    this.baseUrl = `http://${network.toLowerCase()}.indexer.blockcore.net`;
+  }
+
   public getSupply<AxiosResponse>(): Promise<AxiosResponse | undefined> {
     return this.executeGet(this.baseUrl + "/api/insight/supply")
   }
