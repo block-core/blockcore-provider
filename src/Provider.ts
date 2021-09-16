@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
 import axios, { AxiosError } from "axios";
+
 export class Provider {
   private baseUrl: string;
   private response: {
@@ -7,10 +8,19 @@ export class Provider {
     error?: AxiosError;
   }
 
-  public constructor(baseUrl?: string) {
-    this.baseUrl = baseUrl || 'http://city.indexer.blockcore.net';
+  public constructor(baseUrlOrNetwork?: string) {
+    baseUrlOrNetwork = baseUrlOrNetwork || 'CITY';
+
+    if (baseUrlOrNetwork.indexOf('http') > -1) {
+      this.baseUrl = baseUrlOrNetwork;
+    }
+    else {
+      this.baseUrl = this.getNetworkUrl(baseUrlOrNetwork);
+    }
+
     this.response = { data: undefined }
   }
+
   protected async executeGet<AxiosResponse>(endpoint: string): Promise<AxiosResponse | undefined> {
     await axios.get(endpoint)
       .then((res) => {
@@ -27,7 +37,15 @@ export class Provider {
   }
 
   public setNetwork(network: string) {
-    this.baseUrl = `http://${network.toLowerCase()}.indexer.blockcore.net`;
+    this.baseUrl = this.getNetworkUrl(network);
+  }
+
+  public getNetworkUrl(network: string) {
+    return `https://${network.toLowerCase()}.indexer.blockcore.net`;
+  }
+
+  public getBaseUrl() {
+    return this.baseUrl;
   }
 
   public getSupply<AxiosResponse>(): Promise<AxiosResponse | undefined> {

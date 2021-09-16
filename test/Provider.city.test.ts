@@ -9,7 +9,7 @@ describe("Provider (CITY) test suit", () => {
     error: {} || undefined
   }
   beforeEach(() => {
-    provider = new Provider('http://city.indexer.blockcore.net');
+    provider = new Provider('https://city.indexer.blockcore.net');
     // provider.getSupply = getSupplyMock;
   });
 

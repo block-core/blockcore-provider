@@ -9,7 +9,7 @@ describe("Provider (EXOS) test suit", () => {
     error: {} || undefined
   }
   beforeEach(() => {
-    provider = new Provider('http://exos.indexer.blockcore.net');
+    provider = new Provider('https://exos.indexer.blockcore.net');
     // provider.getSupply = getSupplyMock;
   });
 
