@@ -9,7 +9,7 @@
     Multi-Chain Web Provider for Blockcore
   </p>
   <p align="center">
-      <a href="https://github.com/block-core/blockcore-provider/actions/workflows/test.yml"><img src="https://github.com/block-core/blockcore-provider/actions/workflows/test.yml/badge.svg" /></a>
+      <a href="https://github.com/block-core/blockcore-provider/actions/workflows/build.yml"><img src="https://github.com/block-core/blockcore-provider/actions/workflows/build.yml/badge.svg" /></a> <a href="https://github.com/block-core/blockcore-provider/actions/workflows/release.yml"><img src="https://github.com/block-core/blockcore-provider/actions/workflows/release.yml/badge.svg" /></a>
   </p>
   <p align="center"><em>Work-in-Progress - use with caution!</em></p>
 </p>
@@ -30,20 +30,19 @@ Install:
 npm install @blockcore/provider
 ```
 
-Example:
+**Warning:** This package is native [ESM](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules) and does not provide a CommonJS export. If your project uses CommonJS, you'll have to [convert to ESM](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c) or use the [dynamic `import()`](https://v8.dev/features/dynamic-import) function.
 
-```js
-var provider = require("@blockcore/provider");
-var api = new provider.Provider();
+## Usage
 
-api.getCirculatingSupply().then(function (data) {
-    console.log(data);
-});
+```ts
+import { Provider } from '@blockcore/provider';
+
+let provider = new Provider();
+const result: any = await provider.getCirculatingSupply();
 ```
 
-## Example
 
-Screen recording demonstrating the use of the Blockcore Web3 Provider:
+Screen recording demonstrating the use of the Blockcore Web Provider:
 
 ![](doc/blockcore-provider.gif)
 

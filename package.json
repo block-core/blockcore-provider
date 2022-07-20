@@ -36,7 +36,7 @@
 		"@blockcore/tsconfig": "^0.0.1",
 		"@typescript-eslint/eslint-plugin": "^5.30.7",
 		"@typescript-eslint/parser": "^5.30.7",
-    "ava": "^4.3.1",
+		"ava": "^4.3.1",
 		"eslint": "^8.20.0",
 		"eslint-config-standard": "^17.0.0",
 		"eslint-plugin-import": "^2.26.0",
@@ -45,19 +45,16 @@
 		"ts-node": "^10.9.1",
 		"typescript": "^4.7.4"
 	},
-	"dependencies": {
-		"axios": "^0.27.2"
-	},
-  "ava": {
-    "files": [
-      "test/*"
-    ],
-    "timeout": "1m",
-    "extensions": {
-      "ts": "module"
-    },
-    "nodeArguments": [
-      "--loader=ts-node/esm"
-    ]
-  }
+	"ava": {
+		"files": [
+			"test/*"
+		],
+		"timeout": "1m",
+		"extensions": {
+			"ts": "module"
+		},
+		"nodeArguments": [
+			"--loader=ts-node/esm"
+		]
+	}
 }

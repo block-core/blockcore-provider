@@ -35,15 +35,15 @@ export class Provider {
 		return this.response as unknown as AxiosResponse;
 	}
 
-	public setNetwork(network: string) {
+	public setNetwork(network: string): void {
 		this.baseUrl = this.getNetworkUrl(network);
 	}
 
-	public getNetworkUrl(network: string) {
+	public getNetworkUrl(network: string): string {
 		return `https://${network.toLowerCase()}.indexer.blockcore.net`;
 	}
 
-	public getBaseUrl() {
+	public getBaseUrl(): string {
 		return this.baseUrl;
 	}
 
