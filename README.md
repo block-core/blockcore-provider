@@ -41,14 +41,6 @@ let provider = new Provider();
 const result: any = await provider.getCirculatingSupply();
 ```
 
-
 Screen recording demonstrating the use of the Blockcore Web Provider:
 
 ![](doc/blockcore-provider.gif)
-
-## Interactive editor
-
-You can start testing the provider using this ready made Stackblitz:
-
-https://stackblitz.com/edit/angular-ivy-a6yead?file=src/app/app.component.ts
-
