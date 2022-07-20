@@ -3,10 +3,10 @@
     <img src="https://avatars3.githubusercontent.com/u/53176002?s=200&v=4" height="100" alt="Blockcore" />
   </p>
   <h3 align="center">
-    Blockcore Web3 Provider
+    Blockcore Web Provider
   </h3>
   <p align="center">
-    Multi-Chain Web3 Provider for Blockcore
+    Multi-Chain Web Provider for Blockcore
   </p>
   <p align="center">
       <a href="https://github.com/block-core/blockcore-provider/actions/workflows/test.yml"><img src="https://github.com/block-core/blockcore-provider/actions/workflows/test.yml/badge.svg" /></a>
@@ -14,13 +14,13 @@
   <p align="center"><em>Work-in-Progress - use with caution!</em></p>
 </p>
 
-# Blockcore Web3 Provider
+# Blockcore Web Provider
 
-Web3 Provider for Blockcore.
+Web (Web3/Web5) Provider for Blockcore.
 
-The provider is how web3 talks to the blockchains. Providers take JSON-RPC requests and return the response. This is normally done by submitting the request to an HTTP or IPC socket based server.
+The provider is how apps talks to the blockchains. Providers take JSON-RPC requests and return the response. This is normally done by submitting the request to an HTTP or IPC socket based server.
 
-The provider also allows connection to be made between web site / web app and the Blockcore Extension.
+The provider also allows connection to be made between web site / web app and the Blockcore Wallet (browser extension).
 
 ## Setup
 
