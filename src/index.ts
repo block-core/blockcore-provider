@@ -2,3 +2,4 @@
 // export { Provider };
 
 export * from './Provider.js'
+export * from './types.js';

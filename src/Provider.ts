@@ -1,10 +1,10 @@
-import axios, { AxiosError } from 'axios';
+import fetch, { Response } from 'node-fetch';
+import { Address, ChainListEntry, RichListEntry, Supply, WalletListEntry } from './types.js';
 
 export class Provider {
 	private baseUrl: string;
 	private response: {
 		data: unknown | undefined;
-		error?: AxiosError;
 	};
 
 	public constructor(baseUrlOrNetwork?: string) {
@@ -19,21 +19,45 @@ export class Provider {
 		this.response = { data: undefined };
 	}
 
-	protected async executeGet<AxiosResponse>(endpoint: string): Promise<AxiosResponse | undefined> {
-		await axios
-			.get(endpoint)
-			.then((res) => {
-				this.response = {
-					data: res.data,
-					error: undefined,
-				};
-			})
-			.catch((error) => {
-				this.response.error = error;
-			});
-
-		return this.response as unknown as AxiosResponse;
+	private async fetchText(url: string): Promise<string> {
+		const response = await this.fetchUrl(url);
+		return response.text();
 	}
+
+	private async fetchJson<T>(url: string): Promise<T> {
+		const response = await this.fetchUrl(url);
+		return response.json() as Promise<T>;
+	}
+
+	private async fetchUrl(url: string): Promise<Response> {
+		return await fetch(url, {
+			method: 'GET',
+			// mode: 'cors',
+			// cache: 'no-cache',
+			// credentials: 'same-origin',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			redirect: 'follow',
+			referrerPolicy: 'no-referrer',
+		});
+	}
+
+	// protected async executeGet<AxiosResponse>(endpoint: string): Promise<AxiosResponse | undefined> {
+	// 	await axios
+	// 		.get(endpoint)
+	// 		.then((res) => {
+	// 			this.response = {
+	// 				data: res.data,
+	// 				error: undefined,
+	// 			};
+	// 		})
+	// 		.catch((error) => {
+	// 			this.response.error = error;
+	// 		});
+
+	// 	return this.response as unknown as AxiosResponse;
+	// }
 
 	public setNetwork(network: string): void {
 		this.baseUrl = this.getNetworkUrl(network);
@@ -48,35 +72,35 @@ export class Provider {
 	}
 
 	//** Returns the result from the officially hosted list of Blockcore supported chains. */
-	public getNetworks<AxiosResponse>(): Promise<AxiosResponse | undefined> {
-		return this.executeGet('https://chains.blockcore.net/CHAINS.json');
+	public getNetworks() {
+		return this.fetchJson<ChainListEntry[]>('https://chains.blockcore.net/CHAINS.json');
 	}
 
-	public getSupply<AxiosResponse>(): Promise<AxiosResponse | undefined> {
-		return this.executeGet(this.baseUrl + '/api/insight/supply');
+	public getSupply() {
+		return this.fetchJson<Supply>(this.baseUrl + '/api/insight/supply');
 	}
 
-	public async getCirculatingSupply<AxiosResponse>(): Promise<AxiosResponse | undefined> {
-		return this.executeGet(this.baseUrl + '/api/insight/supply/circulating');
+	public async getCirculatingSupply() {
+		return this.fetchText(this.baseUrl + '/api/insight/supply/circulating');
 	}
 
-	public async getTotalSupply<AxiosResponse>(): Promise<AxiosResponse | undefined> {
-		return this.executeGet(this.baseUrl + '/api/insight/supply/total');
+	public async getTotalSupply() {
+		return this.fetchText(this.baseUrl + '/api/insight/supply/total');
 	}
 
-	public async getEstimateRewards<AxiosResponse>(): Promise<AxiosResponse | undefined> {
-		return this.executeGet(this.baseUrl + '/api/insight/rewards');
+	public async getEstimateRewards() {
+		return this.fetchText(this.baseUrl + '/api/insight/rewards');
 	}
-	public async getWallets<AxiosResponse>(): Promise<AxiosResponse | undefined> {
-		return this.executeGet(this.baseUrl + '/api/insight/wallets');
-	}
-
-	public async getRichList<AxiosResponse>(): Promise<AxiosResponse | undefined> {
-		return this.executeGet(this.baseUrl + '/api/insight/richlist');
+	public async getWallets() {
+		return this.fetchJson<WalletListEntry[]>(this.baseUrl + '/api/insight/wallets');
 	}
 
-	public async getAddress<AxiosResponse>(address: string): Promise<AxiosResponse | undefined> {
-		return this.executeGet(`${this.baseUrl}/api/query/address/${address}`);
+	public async getRichList() {
+		return this.fetchJson<RichListEntry[]>(this.baseUrl + '/api/insight/richlist');
+	}
+
+	public async getAddress(address: string) {
+		return this.fetchJson<Address>(`${this.baseUrl}/api/query/address/${address}`);
 	}
 
 	public async getAddressTransactions<AxiosResponse>(address: string): Promise<AxiosResponse | undefined> {

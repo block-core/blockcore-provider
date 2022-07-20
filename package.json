@@ -56,5 +56,8 @@
 		"nodeArguments": [
 			"--loader=ts-node/esm"
 		]
+	},
+	"dependencies": {
+		"node-fetch": "^3.2.9"
 	}
 }
