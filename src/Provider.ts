@@ -3,9 +3,6 @@ import { Address, ChainListEntry, RichListEntry, Supply, WalletListEntry } from 
 
 export class Provider {
 	private baseUrl: string;
-	private response: {
-		data: unknown | undefined;
-	};
 
 	public constructor(baseUrlOrNetwork?: string) {
 		baseUrlOrNetwork = baseUrlOrNetwork || 'CITY';
@@ -15,8 +12,6 @@ export class Provider {
 		} else {
 			this.baseUrl = this.getNetworkUrl(baseUrlOrNetwork);
 		}
-
-		this.response = { data: undefined };
 	}
 
 	private async fetchText(url: string): Promise<string> {
@@ -42,22 +37,6 @@ export class Provider {
 			referrerPolicy: 'no-referrer',
 		});
 	}
-
-	// protected async executeGet<AxiosResponse>(endpoint: string): Promise<AxiosResponse | undefined> {
-	// 	await axios
-	// 		.get(endpoint)
-	// 		.then((res) => {
-	// 			this.response = {
-	// 				data: res.data,
-	// 				error: undefined,
-	// 			};
-	// 		})
-	// 		.catch((error) => {
-	// 			this.response.error = error;
-	// 		});
-
-	// 	return this.response as unknown as AxiosResponse;
-	// }
 
 	public setNetwork(network: string): void {
 		this.baseUrl = this.getNetworkUrl(network);
@@ -103,55 +82,55 @@ export class Provider {
 		return this.fetchJson<Address>(`${this.baseUrl}/api/query/address/${address}`);
 	}
 
-	public async getAddressTransactions<AxiosResponse>(address: string): Promise<AxiosResponse | undefined> {
-		return this.executeGet(`${this.baseUrl}/api/query/address/${address}/transactions`);
+	public async getAddressTransactions(address: string) {
+		return this.fetchJson(`${this.baseUrl}/api/query/address/${address}/transactions`);
 	}
 
-	public async getAddressUnconfirmedTransactions<AxiosResponse>(address: string): Promise<AxiosResponse | undefined> {
-		return this.executeGet(`${this.baseUrl}/api/query/address/${address}/transactions/unconfirmed`);
+	public async getAddressUnconfirmedTransactions(address: string) {
+		return this.fetchJson(`${this.baseUrl}/api/query/address/${address}/transactions/unconfirmed`);
 	}
 
-	public async getAddressSpentTransactions<AxiosResponse>(address: string): Promise<AxiosResponse | undefined> {
-		return this.executeGet(`${this.baseUrl}/api/query/address/${address}/transactions/spent`);
+	public async getAddressSpentTransactions(address: string) {
+		return this.fetchJson(`${this.baseUrl}/api/query/address/${address}/transactions/spent`);
 	}
 
-	public async getAddressUnspentTransactions<AxiosResponse>(address: string): Promise<AxiosResponse | undefined> {
-		return this.executeGet(`${this.baseUrl}/api/query/address/${address}/transactions/unspent`);
+	public async getAddressUnspentTransactions(address: string) {
+		return this.fetchJson(`${this.baseUrl}/api/query/address/${address}/transactions/unspent`);
 	}
 
-	public async getMempoolTransactions<AxiosResponse>(): Promise<AxiosResponse | undefined> {
-		return this.executeGet(`${this.baseUrl}/api/query/mempool/transactions`);
+	public async getMempoolTransactions() {
+		return this.fetchJson(`${this.baseUrl}/api/query/mempool/transactions`);
 	}
 
-	public async getMempoolTransactionsCount<AxiosResponse>(): Promise<AxiosResponse | undefined> {
-		return this.executeGet(`${this.baseUrl}/api/query/mempool/transactions/count`);
+	public async getMempoolTransactionsCount() {
+		return this.fetchText(`${this.baseUrl}/api/query/mempool/transactions/count`);
 	}
 
-	public async getTransactionById<AxiosResponse>(id: string): Promise<AxiosResponse | undefined> {
-		return this.executeGet(`${this.baseUrl}/api/query/transaction/${id}`);
+	public async getTransactionById(id: string) {
+		return this.fetchJson(`${this.baseUrl}/api/query/transaction/${id}`);
 	}
 
-	public async getBlock<AxiosResponse>(): Promise<AxiosResponse | undefined> {
-		return this.executeGet(`${this.baseUrl}/api/query/block`);
+	public async getBlock() {
+		return this.fetchJson(`${this.baseUrl}/api/query/block`);
 	}
 
-	public async getBlockTransactionsByHash<AxiosResponse>(hash: string): Promise<AxiosResponse | undefined> {
-		return this.executeGet(`${this.baseUrl}/api/query/block/${hash}/transactions`);
+	public async getBlockTransactionsByHash(hash: string) {
+		return this.fetchJson(`${this.baseUrl}/api/query/block/${hash}/transactions`);
 	}
 
-	public async getBlockByHash<AxiosResponse>(hash: string): Promise<AxiosResponse | undefined> {
-		return this.executeGet(`${this.baseUrl}/api/query/block/${hash}`);
+	public async getBlockByHash(hash: string) {
+		return this.fetchJson(`${this.baseUrl}/api/query/block/${hash}`);
 	}
 
-	public async getBlockByIndex<AxiosResponse>(index: string): Promise<AxiosResponse | undefined> {
-		return this.executeGet(`${this.baseUrl}/api/query/block/index/${index}`);
+	public async getBlockByIndex(index: string) {
+		return this.fetchJson(`${this.baseUrl}/api/query/block/index/${index}`);
 	}
 
-	public async getBlockTransactionsByIndex<AxiosResponse>(index: string): Promise<AxiosResponse | undefined> {
-		return this.executeGet(`${this.baseUrl}/api/query/block/index/${index}/transactions`);
+	public async getBlockTransactionsByIndex(index: string) {
+		return this.fetchJson(`${this.baseUrl}/api/query/block/index/${index}/transactions`);
 	}
 
-	public async getLatestBlock<AxiosResponse>(): Promise<AxiosResponse | undefined> {
-		return this.executeGet(`${this.baseUrl}/api/query/block/latest`);
+	public async getLatestBlock() {
+		return this.fetchJson(`${this.baseUrl}/api/query/block/latest`);
 	}
 }

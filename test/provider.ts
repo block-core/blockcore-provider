@@ -1,51 +1,44 @@
-import { AxiosError } from 'axios';
 import { Provider } from '../src/index.js';
 import test from 'ava';
 
 test('should get networks', async (t) => {
 	let provider = new Provider();
 	let result: any = await provider.getNetworks();
-	t.assert(result.data[0].symbol === 'BTC');
+	t.assert(result[0].symbol === 'BTC');
 });
 
 test('should get correct network url', async (t) => {
 	let provider = new Provider();
 
-    let result = await provider.getNetworkUrl('CITY');
-		t.assert(result === 'https://city.indexer.blockcore.net');
+	let result = await provider.getNetworkUrl('CITY');
+	t.assert(result === 'https://city.indexer.blockcore.net');
 
-		result = await provider.getNetworkUrl('EXOS');
-		t.assert(result === 'https://exos.indexer.blockcore.net');
+	result = await provider.getNetworkUrl('EXOS');
+	t.assert(result === 'https://exos.indexer.blockcore.net');
 
-		const provider2 = new Provider('https://custom.indexer.blockcore.net');
-		t.assert(provider2.getBaseUrl() === 'https://custom.indexer.blockcore.net');
+	const provider2 = new Provider('https://custom.indexer.blockcore.net');
+	t.assert(provider2.getBaseUrl() === 'https://custom.indexer.blockcore.net');
 });
 
 test('should test getSupply method', async (t) => {
 	let provider = new Provider();
 	const result: any = await provider.getSupply();
 
-	t.assert(result.data.total > 303049697);
-	t.assert(result.data.rewards > 2158270);
-	t.assert(result.data.height > 1218270);
+	t.assert(result.total > 303049697);
+	t.assert(result.rewards > 2158270);
+	t.assert(result.height > 1218270);
 });
 
 test('should test if getCirculatingSupply method returns a number', async (t) => {
 	let provider = new Provider();
 	const result: any = await provider.getCirculatingSupply();
-	t.truthy(result.data);
+	t.truthy(result);
 });
 
 test('should test if getTotalSupply method returns a number', async (t) => {
 	let provider = new Provider();
 	const result: any = await provider.getTotalSupply();
-	t.truthy(result.data);
-});
-
-test('should test if getEstimateRewards method returns a number', async (t) => {
-	let provider = new Provider();
-	const result: any = await provider.getEstimateRewards();
-	t.truthy(result.data);
+	t.truthy(result);
 });
 
 // test('should test if getWallets method returns an object containing Burnt account', async (t) => {
