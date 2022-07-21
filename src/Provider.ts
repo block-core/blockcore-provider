@@ -20,6 +20,8 @@ export class Provider {
 	}
 
 	public async request(request: ProviderRequest) {
+		const param0 = request.params?.at(0);
+
 		switch (request.method) {
 			case 'wallet_requestPermissions': // eip-2255 - https://eips.ethereum.org/EIPS/eip-2255
 				return [
@@ -49,6 +51,12 @@ export class Provider {
 				];
 			case 'requestPermissions': //
 				break;
+			case 'getTransactionByHash':
+				return this.getBlockTransactionsByHash(param0.transactionHash);
+			case 'getBlockByHash':
+				return this.getBlockByHash(param0.blockHash); // TODO: Add support for "includeTransactions".
+			case 'getBlockByNumber':
+				return this.getBlockByIndex(param0.blockNumber); // TODO: Add support for "includeTransactions".
 		}
 
 		console.log('UNHANDLED METHOD!!');
