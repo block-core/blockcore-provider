@@ -1,6 +1,11 @@
 import fetch, { Response } from 'node-fetch';
 import { Address, ChainListEntry, RichListEntry, Supply, WalletListEntry } from './types.js';
 
+export interface ProviderRequest {
+	method: string;
+	params?: any[];
+}
+
 export class Provider {
 	private baseUrl: string;
 
@@ -12,6 +17,41 @@ export class Provider {
 		} else {
 			this.baseUrl = this.getNetworkUrl(baseUrlOrNetwork);
 		}
+	}
+
+	public async request(request: ProviderRequest) {
+		switch (request.method) {
+			case 'wallet_requestPermissions': // eip-2255 - https://eips.ethereum.org/EIPS/eip-2255
+				return [
+					{
+						invoker: 'ens://your-site.eth',
+						parentCapability: 'eth_accounts',
+						caveats: [
+							{
+								type: 'filterResponse',
+								value: ['0x0c54fccd2e384b4bb6f2e405bf5cbc15a017aafb'],
+							},
+						],
+					},
+				];
+			case 'wallet_getPermissions': // eip-2255 - https://eips.ethereum.org/EIPS/eip-2255
+				return [
+					{
+						invoker: 'ens://your-site.eth',
+						parentCapability: 'eth_accounts',
+						caveats: [
+							{
+								type: 'filterResponse',
+								value: ['0x0c54fccd2e384b4bb6f2e405bf5cbc15a017aafb'],
+							},
+						],
+					},
+				];
+			case 'requestPermissions': //
+				break;
+		}
+
+		console.log('UNHANDLED METHOD!!');
 	}
 
 	private async fetchText(url: string): Promise<string> {
