@@ -1,12 +1,7 @@
 import fetch, { Response } from 'node-fetch';
-import { Address, ChainListEntry, RichListEntry, Supply, WalletListEntry } from './types.js';
+import { RequestArguments, Address, ChainListEntry, EIP1193Provider, RichListEntry, Supply, WalletListEntry } from './types.js';
 
-export interface ProviderRequest {
-	method: string;
-	params?: any[];
-}
-
-export class Provider {
+export class Provider implements EIP1193Provider {
 	private baseUrl: string;
 
 	public constructor(baseUrlOrNetwork?: string) {
@@ -19,10 +14,51 @@ export class Provider {
 		}
 	}
 
-	public async request(request: ProviderRequest) {
-		const param0 = request.params?.at(0);
+	setProvider(provider: string) {
+		this.baseUrl = provider;
+	}
 
-		switch (request.method) {
+	on(event: string, callback: any) {
+		// "accountsChanged"
+		// "chainChanged"
+		// "networkChanged"
+	}
+
+	getAccounts() {
+		return null;
+	}
+
+	chainId() {
+		return null;
+	}
+
+	sendTransaction() {
+		return null;
+	}
+
+	signTransaction() {
+		return null;
+	}
+
+	sign() {
+		return null;
+	}
+
+	signTypedData() {
+		return null;
+	}
+
+	// eip-1193: https://github.com/ethereum/EIPs/blob/master/EIPS/eip-1193.md
+	public async request(args: RequestArguments): Promise<unknown> {
+		let param0 = null;
+
+		if (Array.isArray(args.params)) {
+			param0 = args.params[0];
+		} else {
+			param0 = args.params;
+		}
+
+		switch (args.method) {
 			case 'wallet_requestPermissions': // eip-2255 - https://eips.ethereum.org/EIPS/eip-2255
 				return [
 					{

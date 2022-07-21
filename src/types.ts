@@ -42,3 +42,57 @@ export interface Address {
 	pendingSent: number;
 	pendingReceived: number;
 }
+
+export interface ProviderRequest {
+	method: string;
+	params?: any[];
+}
+
+export interface RequestArguments {
+	readonly method: string;
+	readonly params?: readonly unknown[] | object;
+}
+
+export interface ProviderRpcError extends Error {
+	code: number;
+	data?: unknown;
+}
+
+export interface ProviderMessage {
+	readonly type: string;
+	readonly data: unknown;
+}
+
+export interface ProviderConnectInfo {
+	readonly chainId: string;
+}
+
+export interface EthSubscription extends ProviderMessage {
+	readonly type: 'eth_subscription';
+	readonly data: {
+		readonly subscription: string;
+		readonly result: unknown;
+	};
+}
+
+export interface JsonRpcRequest {
+	jsonrpc: string;
+	method: string;
+	params: any[];
+	id: number;
+}
+
+export interface JsonRpcResponse {
+	jsonrpc: string;
+	id: number;
+	result?: any;
+	error?: {
+		code: number;
+		message: string;
+		data?: any;
+	};
+}
+
+export interface EIP1193Provider {
+	request(args: RequestArguments): Promise<unknown>;
+}
