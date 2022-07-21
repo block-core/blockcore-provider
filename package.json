@@ -58,6 +58,7 @@
 		]
 	},
 	"dependencies": {
+		"@blockcore/coininfo": "^5.2.2",
 		"node-fetch": "^3.2.9"
 	}
 }

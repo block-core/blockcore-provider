@@ -1,5 +1,7 @@
 import fetch, { Response } from 'node-fetch';
 import { RequestArguments, Address, ChainListEntry, EIP1193Provider, RichListEntry, Supply, WalletListEntry } from './types.js';
+// import { coininfo } from '@blockcore/coininfo';
+import coininfo from '@blockcore/coininfo';
 
 export class Provider implements EIP1193Provider {
 	private baseUrl: string;
@@ -132,6 +134,11 @@ export class Provider implements EIP1193Provider {
 
 	public getBaseUrl(): string {
 		return this.baseUrl;
+	}
+
+	/** Returns network definition from local package, no external requests. */
+	public getNetwork(network: string) {
+		return coininfo(network);
 	}
 
 	//** Returns the result from the officially hosted list of Blockcore supported chains. */
