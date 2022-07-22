@@ -1,29 +1,35 @@
 import fetch, { Response } from 'node-fetch';
 import { RequestArguments, Address, ChainListEntry, RichListEntry, Supply, WalletListEntry, EIP1193Provider } from './types.js';
-import coininfo from '@blockcore/coininfo';
 import { BlockcoreProvider } from './BlockcoreProvider.js';
 import { IndexerProvider } from './IndexerProvider.js';
 
 export class WebProvider implements EIP1193Provider {
-	private baseUrl: string;
-	private provider: BlockcoreProvider;
-	private indexer: IndexerProvider;
+	// private baseUrl: string;
+	// private provider: BlockcoreProvider;
+	// private indexer: IndexerProvider;
 
-	public constructor(baseUrlOrNetwork?: string) {
-		baseUrlOrNetwork = baseUrlOrNetwork || 'CITY';
-
-		if (baseUrlOrNetwork.indexOf('http') > -1) {
-			this.baseUrl = baseUrlOrNetwork;
-		} else {
-			this.baseUrl = this.getNetworkUrl(baseUrlOrNetwork);
-		}
-
-		this.provider = new BlockcoreProvider(this.baseUrl);
-		this.indexer = new IndexerProvider(this.baseUrl);
+	private constructor(private indexer: IndexerProvider, private provider: BlockcoreProvider) {
+		// baseUrlOrNetwork = baseUrlOrNetwork || 'CITY';
+		// if (baseUrlOrNetwork.indexOf('http') > -1) {
+		// 	this.baseUrl = baseUrlOrNetwork;
+		// } else {
+		// 	this.baseUrl = this.getNetworkUrl(baseUrlOrNetwork);
+		// }
+		// this.provider = new BlockcoreProvider(this.baseUrl);
+		// this.indexer = new IndexerProvider();
 	}
 
-	setProvider(provider: string) {
-		this.baseUrl = provider;
+	static async Create(indexer?: IndexerProvider) {
+		// Create and load all known services from all name servers.
+		if (!indexer) {
+			indexer = new IndexerProvider();
+			await indexer.load();
+		}
+
+		const provider = new BlockcoreProvider();
+
+		const webProvider = new WebProvider(indexer, provider);
+		return webProvider;
 	}
 
 	on(event: string, callback: any) {
@@ -73,30 +79,30 @@ export class WebProvider implements EIP1193Provider {
 			case 'requestPermissions': //
 				return null;
 			case 'getTransactionByHash':
-				return this.getBlockTransactionsByHash(param0.transactionHash);
+				return this.indexer.getBlockTransactionsByHash(param0.transactionHash);
 			case 'getBlockByHash':
-				return this.getBlockByHash(param0.blockHash); // TODO: Add support for "includeTransactions".
+				return this.indexer.getBlockByHash(param0.blockHash); // TODO: Add support for "includeTransactions".
 			case 'getBlockByNumber':
-				return this.getBlockByIndex(param0.blockNumber); // TODO: Add support for "includeTransactions".
+				return this.indexer.getBlockByIndex(param0.blockNumber); // TODO: Add support for "includeTransactions".
 			default:
 				return null;
 		}
 	}
 
-	public setNetwork(network: string): void {
-		this.baseUrl = this.getNetworkUrl(network);
-	}
+	// public setNetwork(network: string): void {
+	// 	this.baseUrl = this.getNetworkUrl(network);
+	// }
 
-	public getNetworkUrl(network: string): string {
-		return `https://${network.toLowerCase()}.indexer.blockcore.net`;
-	}
+	// public getNetworkUrl(network: string): string {
+	// 	return `https://${network.toLowerCase()}.indexer.blockcore.net`;
+	// }
 
-	public getBaseUrl(): string {
-		return this.baseUrl;
-	}
+	// public getBaseUrl(): string {
+	// 	return this.baseUrl;
+	// }
 
 	/** Returns network definition from local package, no external requests. */
 	public getNetwork(network: string) {
-		return coininfo(network);
+		return this.provider.getNetwork(network);
 	}
 }

@@ -2,22 +2,23 @@ import fetch, { Response } from 'node-fetch';
 import { RequestArguments, Address, ChainListEntry, RichListEntry, Supply, WalletListEntry } from './types.js';
 import coininfo from '@blockcore/coininfo';
 
+/** Provider that interacts with the wallet. */
 export class BlockcoreProvider {
-	private baseUrl: string;
+	// private baseUrl: string;
 
-	public constructor(baseUrlOrNetwork?: string) {
-		baseUrlOrNetwork = baseUrlOrNetwork || 'CITY';
+	public constructor() {
+		// baseUrlOrNetwork = baseUrlOrNetwork || 'CITY';
 
-		if (baseUrlOrNetwork.indexOf('http') > -1) {
-			this.baseUrl = baseUrlOrNetwork;
-		} else {
-			this.baseUrl = this.getNetworkUrl(baseUrlOrNetwork);
-		}
+		// if (baseUrlOrNetwork.indexOf('http') > -1) {
+		// 	this.baseUrl = baseUrlOrNetwork;
+		// } else {
+		// 	this.baseUrl = this.getNetworkUrl(baseUrlOrNetwork);
+		// }
 	}
 
-	setProvider(provider: string) {
-		this.baseUrl = provider;
-	}
+	// setProvider(provider: string) {
+	// 	this.baseUrl = provider;
+	// }
 
 	on(event: string, callback: any) {
 		console.log(event, callback);
@@ -50,41 +51,17 @@ export class BlockcoreProvider {
 		return null;
 	}
 
-	private async fetchText(url: string): Promise<string> {
-		const response = await this.fetchUrl(url);
-		return response.text();
-	}
+	// public setNetwork(network: string): void {
+	// 	this.baseUrl = this.getNetworkUrl(network);
+	// }
 
-	private async fetchJson<T>(url: string): Promise<T> {
-		const response = await this.fetchUrl(url);
-		return response.json() as Promise<T>;
-	}
+	// public getNetworkUrl(network: string): string {
+	// 	return `https://${network.toLowerCase()}.indexer.blockcore.net`;
+	// }
 
-	private async fetchUrl(url: string): Promise<Response> {
-		return await fetch(url, {
-			method: 'GET',
-			// mode: 'cors',
-			// cache: 'no-cache',
-			// credentials: 'same-origin',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			redirect: 'follow',
-			referrerPolicy: 'no-referrer',
-		});
-	}
-
-	public setNetwork(network: string): void {
-		this.baseUrl = this.getNetworkUrl(network);
-	}
-
-	public getNetworkUrl(network: string): string {
-		return `https://${network.toLowerCase()}.indexer.blockcore.net`;
-	}
-
-	public getBaseUrl(): string {
-		return this.baseUrl;
-	}
+	// public getBaseUrl(): string {
+	// 	return this.baseUrl;
+	// }
 
 	/** Returns network definition from local package, no external requests. */
 	public getNetwork(network: string) {

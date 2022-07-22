@@ -35,7 +35,7 @@ npm install @blockcore/provider
 ## Usage
 
 ```ts
-import { Provider } from '@blockcore/provider';
+import { Provider } from "@blockcore/provider";
 
 let provider = new Provider();
 const result: any = await provider.getCirculatingSupply();
@@ -44,3 +44,15 @@ const result: any = await provider.getCirculatingSupply();
 Screen recording demonstrating the use of the Blockcore Web Provider:
 
 ![](doc/blockcore-provider.gif)
+
+## Development
+
+### Build
+
+Simply run `npm run build` to build the library. Also run `npm run lint` to verify the code syntax.
+
+### Testing
+
+The library is using `ava` for tests. Please refer to the documentation on how to write tests:
+
+[https://github.com/avajs/ava/blob/main/docs/01-writing-tests.md](https://github.com/avajs/ava/blob/main/docs/01-writing-tests.md)

@@ -1,27 +1,40 @@
-import { Provider } from '../src/index.js';
+import { IndexerProvider } from '../src/index.js';
 import test from 'ava';
 
-test('should get networks', async (t) => {
-	let provider = new Provider();
+let indexerProvider;
+
+// Reuse the same instance for all tests.
+const createInstance = async (): Promise<IndexerProvider> => {
+	if (!indexerProvider) {
+		indexerProvider = new IndexerProvider();
+		await indexerProvider.load();
+	}
+
+	return indexerProvider;
+};
+
+test.serial('should get networks', async (t) => {
+	let provider = await createInstance();
 	let result: any = await provider.getNetworks();
 	t.assert(result[0].symbol === 'BTC');
 });
 
-test('should get correct network url', async (t) => {
-	let provider = new Provider();
+// test('should get correct network url', async (t) => {
+// 	let provider = new IndexerProvider();
 
-	let result = await provider.getNetworkUrl('CITY');
-	t.assert(result === 'https://city.indexer.blockcore.net');
+// 	let result = await provider.getNetworkUrl('CITY');
+// 	t.assert(result === 'https://city.indexer.blockcore.net');
 
-	result = await provider.getNetworkUrl('EXOS');
-	t.assert(result === 'https://exos.indexer.blockcore.net');
+// 	result = await provider.getNetworkUrl('EXOS');
+// 	t.assert(result === 'https://exos.indexer.blockcore.net');
 
-	const provider2 = new Provider('https://custom.indexer.blockcore.net');
-	t.assert(provider2.getBaseUrl() === 'https://custom.indexer.blockcore.net');
-});
+// 	const provider2 = new IndexerProvider('https://custom.indexer.blockcore.net');
+// 	t.assert(provider2.getBaseUrl() === 'https://custom.indexer.blockcore.net');
+// });
 
-test('should test getSupply method', async (t) => {
-	let provider = new Provider();
+test.serial('should test getSupply method', async (t) => {
+	let provider = await createInstance();
+	provider.setNetwork('CITY');
 	const result: any = await provider.getSupply();
 
 	t.assert(result.total > 303049697);
@@ -29,17 +42,57 @@ test('should test getSupply method', async (t) => {
 	t.assert(result.height > 1218270);
 });
 
-test('should test if getCirculatingSupply method returns a number', async (t) => {
-	let provider = new Provider();
+test.serial('should test if getCirculatingSupply method returns a number', async (t) => {
+	let provider = await createInstance();
+    provider.setNetwork('CITY');
 	const result: any = await provider.getCirculatingSupply();
 	t.truthy(result);
 });
 
-test('should test if getTotalSupply method returns a number', async (t) => {
-	let provider = new Provider();
+test.serial('should test if getTotalSupply method returns a number', async (t) => {
+	let provider = await createInstance();
+    provider.setNetwork('CITY');
 	const result: any = await provider.getTotalSupply();
 	t.truthy(result);
 });
+
+test('should verify that city chain network is correct', async (t) => {
+	let provider = await createInstance();
+    provider.setNetwork('CITY');
+	const result: any = await provider.getSupply();
+
+	t.assert(result.total > 13759461317); // Previous test: 13762606311, API returns now: 13759461318
+	t.assert(result.rewards > 24854552);
+	t.assert(result.height > 1338666);
+});
+
+test('should get block by index', async (t) => {
+	let provider = await createInstance();
+    provider.setNetwork('CITY');
+	const result: any = await provider.getBlockByIndex('1');
+
+	t.assert(result.blockHash === '10ff8948145eab119c528301e44316a977b6adb2d82526f44f296b02370a6d41');
+	t.assert(result.nonce === 16639);
+});
+
+test('should get transaction by id', async (t) => {
+	let provider = await createInstance();
+    provider.setNetwork('CITY');
+	const result: any = await provider.getTransactionById('f75756e8cd24e5c15c2f68a1a9eb2e6299ad8dd6e196940b27d8c933a1654c96'); // Block 50000
+
+	t.assert(result.symbol === 'CITY');
+	t.assert(result.blockHash === '3ef76cbcd4c125bfab252f20e11cdec64a495b1c3d6caa77d407f1e0420f71e7');
+	t.assert(result.blockIndex === 50000);
+	t.assert(result.transactionId === 'f75756e8cd24e5c15c2f68a1a9eb2e6299ad8dd6e196940b27d8c933a1654c96');
+});
+
+test('should test if getEstimateRewards method returns a number', async (t) => {
+	let provider = await createInstance();
+    provider.setNetwork('CITY');
+	const result: any = await provider.getEstimateRewards();
+	t.truthy(result);
+});
+
 
 // test('should test if getWallets method returns an object containing Burnt account', async (t) => {
 // 	let provider = new Provider();

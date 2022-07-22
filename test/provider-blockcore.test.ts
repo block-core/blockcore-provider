@@ -1,8 +1,8 @@
-import { Provider } from '../src/index.js';
+import { BlockcoreProvider } from '../src/index.js';
 import test from 'ava';
 
 test('get CITY network', async (t) => {
-	let provider = new Provider();
+	let provider = new BlockcoreProvider();
 	let network = provider.getNetwork('CITY');
 
 	t.assert(network != null);

@@ -1,21 +1,59 @@
 import fetch, { Response } from 'node-fetch';
 import { RequestArguments, Address, ChainListEntry, EIP1193Provider, RichListEntry, Supply, WalletListEntry } from './types.js';
+import { BlockcoreDns, DnsListEntry, ServiceListEntry } from '@blockcore/dns';
+import { WebRequest } from './Request.js';
 
 export class IndexerProvider {
-	private baseUrl: string;
+	private dns: BlockcoreDns;
+	private nameservers: DnsListEntry[] = [];
+	private services: ServiceListEntry[] = [];
+	private currentServices: ServiceListEntry[] = [];
+	private network = 'STRAX'; // Should we default to BTC?
 
-	public constructor(baseUrlOrNetwork?: string) {
-		baseUrlOrNetwork = baseUrlOrNetwork || 'CITY';
-
-		if (baseUrlOrNetwork.indexOf('http') > -1) {
-			this.baseUrl = baseUrlOrNetwork;
-		} else {
-			this.baseUrl = this.getNetworkUrl(baseUrlOrNetwork);
-		}
+	public constructor() {
+		this.dns = new BlockcoreDns('');
 	}
 
-	setProvider(provider: string) {
-		this.baseUrl = provider;
+	setNetwork(network: string) {
+		this.network = network;
+		this.filterServices();
+	}
+
+	filterServices() {
+		this.currentServices = this.services.filter((s) => s.symbol === this.network && s.online === true);
+	}
+
+	/** Attempts to load the latest status of all services from all known nameservers. */
+	async load() {
+		this.nameservers = await BlockcoreDns.getDnsServers();
+
+		const servicesMap = new Map();
+
+		for (let i = 0; i < this.nameservers.length; i++) {
+			const nameserver = this.nameservers[i];
+
+			if (!nameserver) {
+				continue;
+			}
+
+			this.dns.setActiveServer(nameserver.url);
+
+			const services = await this.dns.getServicesByType('Indexer');
+
+			services.forEach((item) => servicesMap.set(item.domain, { ...servicesMap.get(item.domain), ...item }));
+		}
+
+		this.services = Array.from(servicesMap.values());
+
+		this.filterServices();
+	}
+
+	getNameServers() {
+		return this.nameservers;
+	}
+
+	async getIndexersByNetwork(network: string) {
+		return this.dns.getServicesByTypeAndNetwork('Indexer', network);
 	}
 
 	on(event: string, callback: any) {
@@ -25,123 +63,103 @@ export class IndexerProvider {
 		// "networkChanged"
 	}
 
-	private async fetchText(url: string): Promise<string> {
-		const response = await this.fetchUrl(url);
-		return response.text();
+	private getRandomInt(max: number) {
+		return Math.floor(Math.random() * max);
 	}
 
-	private async fetchJson<T>(url: string): Promise<T> {
-		const response = await this.fetchUrl(url);
-		return response.json() as Promise<T>;
-	}
-
-	private async fetchUrl(url: string): Promise<Response> {
-		return await fetch(url, {
-			method: 'GET',
-			// mode: 'cors',
-			// cache: 'no-cache',
-			// credentials: 'same-origin',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			redirect: 'follow',
-			referrerPolicy: 'no-referrer',
-		});
-	}
-
-	public setNetwork(network: string): void {
-		this.baseUrl = this.getNetworkUrl(network);
-	}
-
-	public getNetworkUrl(network: string): string {
-		return `https://${network.toLowerCase()}.indexer.blockcore.net`;
-	}
-
-	public getBaseUrl(): string {
-		return this.baseUrl;
+	private getUrl(): string | undefined {
+		// TODO: This can be simplified, I'm just too tired to refactor right now.
+		if (this.currentServices.length > 1) {
+			const serviceIndex = this.getRandomInt(this.currentServices.length);
+			return `https://${this.currentServices[serviceIndex]?.domain}`;
+		} else if (this.currentServices.length == 1) {
+			return `https://${this.currentServices[0]?.domain}`;
+		} else {
+			return undefined;
+		}
 	}
 
 	//** Returns the result from the officially hosted list of Blockcore supported chains. */
 	public getNetworks() {
-		return this.fetchJson<ChainListEntry[]>('https://chains.blockcore.net/CHAINS.json');
+		return WebRequest.fetchJson<ChainListEntry[]>('https://chains.blockcore.net/CHAINS.json');
 	}
 
 	public getSupply() {
-		return this.fetchJson<Supply>(this.baseUrl + '/api/insight/supply');
+		return WebRequest.fetchJson<Supply>(this.getUrl() + '/api/insight/supply');
 	}
 
 	public async getCirculatingSupply() {
-		return this.fetchText(this.baseUrl + '/api/insight/supply/circulating');
+		return WebRequest.fetchText(this.getUrl() + '/api/insight/supply/circulating');
 	}
 
 	public async getTotalSupply() {
-		return this.fetchText(this.baseUrl + '/api/insight/supply/total');
+		return WebRequest.fetchText(this.getUrl() + '/api/insight/supply/total');
 	}
 
 	public async getEstimateRewards() {
-		return this.fetchText(this.baseUrl + '/api/insight/rewards');
+		return WebRequest.fetchText(this.getUrl() + '/api/insight/rewards');
 	}
 	public async getWallets() {
-		return this.fetchJson<WalletListEntry[]>(this.baseUrl + '/api/insight/wallets');
+		return WebRequest.fetchJson<WalletListEntry[]>(this.getUrl() + '/api/insight/wallets');
 	}
 
 	public async getRichList() {
-		return this.fetchJson<RichListEntry[]>(this.baseUrl + '/api/insight/richlist');
+		return WebRequest.fetchJson<RichListEntry[]>(this.getUrl() + '/api/insight/richlist');
 	}
 
 	public async getAddress(address: string) {
-		return this.fetchJson<Address>(`${this.baseUrl}/api/query/address/${address}`);
+		return WebRequest.fetchJson<Address>(`${this.getUrl()}/api/query/address/${address}`);
 	}
 
 	public async getAddressTransactions(address: string) {
-		return this.fetchJson(`${this.baseUrl}/api/query/address/${address}/transactions`);
+		return WebRequest.fetchJson(`${this.getUrl()}/api/query/address/${address}/transactions`);
 	}
 
 	public async getAddressUnconfirmedTransactions(address: string) {
-		return this.fetchJson(`${this.baseUrl}/api/query/address/${address}/transactions/unconfirmed`);
+		return WebRequest.fetchJson(`${this.getUrl()}/api/query/address/${address}/transactions/unconfirmed`);
 	}
 
 	public async getAddressSpentTransactions(address: string) {
-		return this.fetchJson(`${this.baseUrl}/api/query/address/${address}/transactions/spent`);
+		return WebRequest.fetchJson(`${this.getUrl()}/api/query/address/${address}/transactions/spent`);
 	}
 
 	public async getAddressUnspentTransactions(address: string) {
-		return this.fetchJson(`${this.baseUrl}/api/query/address/${address}/transactions/unspent`);
+		return WebRequest.fetchJson(`${this.getUrl()}/api/query/address/${address}/transactions/unspent`);
 	}
 
 	public async getMempoolTransactions() {
-		return this.fetchJson(`${this.baseUrl}/api/query/mempool/transactions`);
+		return WebRequest.fetchJson(`${this.getUrl()}/api/query/mempool/transactions`);
 	}
 
 	public async getMempoolTransactionsCount() {
-		return this.fetchText(`${this.baseUrl}/api/query/mempool/transactions/count`);
+		return WebRequest.fetchText(`${this.getUrl()}/api/query/mempool/transactions/count`);
 	}
 
 	public async getTransactionById(id: string) {
-		return this.fetchJson(`${this.baseUrl}/api/query/transaction/${id}`);
+		return WebRequest.fetchJson(`${this.getUrl()}/api/query/transaction/${id}`);
 	}
 
 	public async getBlock() {
-		return this.fetchJson(`${this.baseUrl}/api/query/block`);
+		return WebRequest.fetchJson(`${this.getUrl()}/api/query/block`);
 	}
 
 	public async getBlockTransactionsByHash(hash: string) {
-		return this.fetchJson(`${this.baseUrl}/api/query/block/${hash}/transactions`);
+		return WebRequest.fetchJson(`${this.getUrl()}/api/query/block/${hash}/transactions`);
 	}
 
 	public async getBlockByHash(hash: string) {
-		return this.fetchJson(`${this.baseUrl}/api/query/block/${hash}`);
+		return WebRequest.fetchJson(`${this.getUrl()}/api/query/block/${hash}`);
 	}
 
 	public async getBlockByIndex(index: string) {
-		return this.fetchJson(`${this.baseUrl}/api/query/block/index/${index}`);
+		return WebRequest.fetchJson(`${this.getUrl()}/api/query/block/index/${index}`);
 	}
 
 	public async getBlockTransactionsByIndex(index: string) {
-		return this.fetchJson(`${this.baseUrl}/api/query/block/index/${index}/transactions`);
+		return WebRequest.fetchJson(`${this.getUrl()}/api/query/block/index/${index}/transactions`);
 	}
 
 	public async getLatestBlock() {
-		return this.fetchJson(`${this.baseUrl}/api/query/block/latest`);
+		return WebRequest.fetchJson(`${this.getUrl()}/api/query/block/latest`);
 	}
 }
