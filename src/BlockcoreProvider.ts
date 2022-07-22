@@ -44,8 +44,10 @@ export class BlockcoreProvider {
 		return null;
 	}
 
-	signTypedData() {
-		return null;
+	async signTypedData(params?: unknown[] | object) {
+		console.log('SIGN DATA WITH PARAMS:', params);
+
+		return {};
 	}
 
 	// public setNetwork(network: string): void {

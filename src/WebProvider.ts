@@ -52,6 +52,8 @@ export class WebProvider implements EIP1193Provider {
 			param0 = args.params;
 		}
 
+		// params: [from, JSON.stringify(msgParams)]
+
 		switch (args.method) {
 			case 'wallet_requestPermissions': // eip-2255 - https://eips.ethereum.org/EIPS/eip-2255
 				return [
@@ -79,6 +81,9 @@ export class WebProvider implements EIP1193Provider {
 						],
 					},
 				];
+			case 'signTypedData':
+			case 'signTypedData_v4':
+				return this.provider.signTypedData(args.params);
 			case 'requestPermissions': //
 				return null;
 			case 'getTransactionByHash':
