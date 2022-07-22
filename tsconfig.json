@@ -5,7 +5,7 @@
   },
   "include": [
 		"src"
-	],
+, "ambient.d.ts"	],
 	"ts-node": {
 		"transpileOnly": true,
 		"files": true,

@@ -21,6 +21,7 @@ export class Provider implements EIP1193Provider {
 	}
 
 	on(event: string, callback: any) {
+		console.log(event, callback);
 		// "accountsChanged"
 		// "chainChanged"
 		// "networkChanged"
@@ -88,16 +89,16 @@ export class Provider implements EIP1193Provider {
 					},
 				];
 			case 'requestPermissions': //
-				break;
+				return null;
 			case 'getTransactionByHash':
 				return this.getBlockTransactionsByHash(param0.transactionHash);
 			case 'getBlockByHash':
 				return this.getBlockByHash(param0.blockHash); // TODO: Add support for "includeTransactions".
 			case 'getBlockByNumber':
 				return this.getBlockByIndex(param0.blockNumber); // TODO: Add support for "includeTransactions".
+			default:
+				return null;
 		}
-
-		console.log('UNHANDLED METHOD!!');
 	}
 
 	private async fetchText(url: string): Promise<string> {
