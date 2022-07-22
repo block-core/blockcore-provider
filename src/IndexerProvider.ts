@@ -1,7 +1,5 @@
 import fetch, { Response } from 'node-fetch';
 import { RequestArguments, Address, ChainListEntry, EIP1193Provider, RichListEntry, Supply, WalletListEntry } from './types.js';
-// import { coininfo } from '@blockcore/coininfo';
-import coininfo from '@blockcore/coininfo';
 
 export class IndexerProvider {
 	private baseUrl: string;
@@ -25,80 +23,6 @@ export class IndexerProvider {
 		// "accountsChanged"
 		// "chainChanged"
 		// "networkChanged"
-	}
-
-	getAccounts() {
-		return null;
-	}
-
-	chainId() {
-		return null;
-	}
-
-	sendTransaction() {
-		return null;
-	}
-
-	signTransaction() {
-		return null;
-	}
-
-	sign() {
-		return null;
-	}
-
-	signTypedData() {
-		return null;
-	}
-
-	// eip-1193: https://github.com/ethereum/EIPs/blob/master/EIPS/eip-1193.md
-	public async request(args: RequestArguments): Promise<unknown> {
-		let param0 = null;
-
-		if (Array.isArray(args.params)) {
-			param0 = args.params[0];
-		} else {
-			param0 = args.params;
-		}
-
-		switch (args.method) {
-			case 'wallet_requestPermissions': // eip-2255 - https://eips.ethereum.org/EIPS/eip-2255
-				return [
-					{
-						invoker: 'ens://your-site.eth',
-						parentCapability: 'eth_accounts',
-						caveats: [
-							{
-								type: 'filterResponse',
-								value: ['0x0c54fccd2e384b4bb6f2e405bf5cbc15a017aafb'],
-							},
-						],
-					},
-				];
-			case 'wallet_getPermissions': // eip-2255 - https://eips.ethereum.org/EIPS/eip-2255
-				return [
-					{
-						invoker: 'ens://your-site.eth',
-						parentCapability: 'eth_accounts',
-						caveats: [
-							{
-								type: 'filterResponse',
-								value: ['0x0c54fccd2e384b4bb6f2e405bf5cbc15a017aafb'],
-							},
-						],
-					},
-				];
-			case 'requestPermissions': //
-				return null;
-			case 'getTransactionByHash':
-				return this.getBlockTransactionsByHash(param0.transactionHash);
-			case 'getBlockByHash':
-				return this.getBlockByHash(param0.blockHash); // TODO: Add support for "includeTransactions".
-			case 'getBlockByNumber':
-				return this.getBlockByIndex(param0.blockNumber); // TODO: Add support for "includeTransactions".
-			default:
-				return null;
-		}
 	}
 
 	private async fetchText(url: string): Promise<string> {
@@ -135,11 +59,6 @@ export class IndexerProvider {
 
 	public getBaseUrl(): string {
 		return this.baseUrl;
-	}
-
-	/** Returns network definition from local package, no external requests. */
-	public getNetwork(network: string) {
-		return coininfo(network);
 	}
 
 	//** Returns the result from the officially hosted list of Blockcore supported chains. */
