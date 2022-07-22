@@ -7,7 +7,7 @@ export class WebProvider implements EIP1193Provider {
 	// private provider: BlockcoreProvider;
 	// private indexer: IndexerProvider;
 
-	private constructor(private indexer: IndexerProvider, private provider: BlockcoreProvider) {
+	private constructor(public indexer: IndexerProvider, private provider: BlockcoreProvider) {
 		// baseUrlOrNetwork = baseUrlOrNetwork || 'CITY';
 		// if (baseUrlOrNetwork.indexOf('http') > -1) {
 		// 	this.baseUrl = baseUrlOrNetwork;
@@ -29,6 +29,10 @@ export class WebProvider implements EIP1193Provider {
 
 		const webProvider = new WebProvider(indexer, provider);
 		return webProvider;
+	}
+
+	setNetwork(network: string) {
+		this.indexer.setNetwork(network);
 	}
 
 	on(event: string, callback: unknown) {

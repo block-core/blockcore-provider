@@ -93,7 +93,6 @@ test('should test if getEstimateRewards method returns a number', async (t) => {
 	t.truthy(result);
 });
 
-
 // test('should test if getWallets method returns an object containing Burnt account', async (t) => {
 // 	let provider = new Provider();
 // 	const result: any = await provider.getWallets();

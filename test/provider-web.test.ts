@@ -1,7 +1,7 @@
 import { WebProvider } from '../src/index.js';
 import test from 'ava';
 
-let webProvider;
+let webProvider:WebProvider;
 
 // Reuse the same instance for all tests.
 const createInstance = async () => {
@@ -35,4 +35,11 @@ test.serial('request: should request permissions', async (t) => {
 	});
 
 	t.assert(response != null);
+});
+
+test.serial('should use indexer through the WebProvider', async (t) => {
+	let webProvider = await createInstance();
+	webProvider.setNetwork('CITY');
+	let supply = await webProvider.indexer.getCirculatingSupply();
+	t.assert(supply != null);
 });

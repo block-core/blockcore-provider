@@ -35,10 +35,16 @@ npm install @blockcore/provider
 ## Usage
 
 ```ts
-import { Provider } from "@blockcore/provider";
+import { WebProvider } from "@blockcore/provider";
 
-let provider = new Provider();
-const result: any = await provider.getCirculatingSupply();
+let webProvider = await WebProvider.Create();
+webProvider.setNetwork('BTC');
+
+const response = await webProvider.request({
+  method: 'wallet_getPermissions',
+});
+
+const result: any = await webProvider.indexer.getCirculatingSupply();
 ```
 
 Screen recording demonstrating the use of the Blockcore Web Provider:
