@@ -59,5 +59,5 @@ jobs:
         files: "${{env.RELEASE_NAME}}"
         draft: true
         prerelease: false
-        name: "Blockcore DNS JS (${{env.VERSION}})"
+        name: "Blockcore Provider (${{env.VERSION}})"
         tag: ${{env.VERSION}}
