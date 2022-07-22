@@ -45,7 +45,7 @@ export interface Address {
 
 export interface ProviderRequest {
 	method: string;
-	params?: any[];
+	params?: unknown[];
 }
 
 export interface RequestArguments {
@@ -78,18 +78,18 @@ export interface EthSubscription extends ProviderMessage {
 export interface JsonRpcRequest {
 	jsonrpc: string;
 	method: string;
-	params: any[];
+	params: unknown[];
 	id: number;
 }
 
 export interface JsonRpcResponse {
 	jsonrpc: string;
 	id: number;
-	result?: any;
+	result?: unknown;
 	error?: {
 		code: number;
 		message: string;
-		data?: any;
+		data?: unknown;
 	};
 }
 

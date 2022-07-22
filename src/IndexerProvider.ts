@@ -1,5 +1,4 @@
-import fetch, { Response } from 'node-fetch';
-import { RequestArguments, Address, ChainListEntry, EIP1193Provider, RichListEntry, Supply, WalletListEntry } from './types.js';
+import { Address, ChainListEntry, RichListEntry, Supply, WalletListEntry } from './types.js';
 import { BlockcoreDns, DnsListEntry, ServiceListEntry } from '@blockcore/dns';
 import { WebRequest } from './Request.js';
 
@@ -56,7 +55,7 @@ export class IndexerProvider {
 		return this.dns.getServicesByTypeAndNetwork('Indexer', network);
 	}
 
-	on(event: string, callback: any) {
+	on(event: string, callback: unknown) {
 		console.log(event, callback);
 		// "accountsChanged"
 		// "chainChanged"

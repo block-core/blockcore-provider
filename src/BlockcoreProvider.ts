@@ -1,5 +1,3 @@
-import fetch, { Response } from 'node-fetch';
-import { RequestArguments, Address, ChainListEntry, RichListEntry, Supply, WalletListEntry } from './types.js';
 import coininfo from '@blockcore/coininfo';
 
 /** Provider that interacts with the wallet. */
@@ -8,7 +6,6 @@ export class BlockcoreProvider {
 
 	public constructor() {
 		// baseUrlOrNetwork = baseUrlOrNetwork || 'CITY';
-
 		// if (baseUrlOrNetwork.indexOf('http') > -1) {
 		// 	this.baseUrl = baseUrlOrNetwork;
 		// } else {
@@ -20,7 +17,7 @@ export class BlockcoreProvider {
 	// 	this.baseUrl = provider;
 	// }
 
-	on(event: string, callback: any) {
+	on(event: string, callback: unknown) {
 		console.log(event, callback);
 		// "accountsChanged"
 		// "chainChanged"

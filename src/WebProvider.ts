@@ -1,5 +1,4 @@
-import fetch, { Response } from 'node-fetch';
-import { RequestArguments, Address, ChainListEntry, RichListEntry, Supply, WalletListEntry, EIP1193Provider } from './types.js';
+import { RequestArguments, EIP1193Provider } from './types.js';
 import { BlockcoreProvider } from './BlockcoreProvider.js';
 import { IndexerProvider } from './IndexerProvider.js';
 
@@ -32,7 +31,7 @@ export class WebProvider implements EIP1193Provider {
 		return webProvider;
 	}
 
-	on(event: string, callback: any) {
+	on(event: string, callback: unknown) {
 		console.log(event, callback);
 		// "accountsChanged"
 		// "chainChanged"
