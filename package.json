@@ -1,6 +1,6 @@
 {
 	"name": "@blockcore/provider",
-	"version": "0.0.6",
+	"version": "0.0.7",
 	"description": "",
 	"type": "module",
 	"exports": "./lib/index.js",
@@ -15,7 +15,8 @@
 		"build": "tsc",
 		"lint": "eslint .",
 		"test": "npm run lint && ava",
-		"version": "node -p \"require('./package.json').version\""
+		"version": "node -p \"require('./package.json').version\"",
+		"changelog": "conventional-changelog -i CHANGELOG.md -s -r 0 && git add CHANGELOG.md"
 	},
 	"keywords": [
 		"blockchain",
