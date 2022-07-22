@@ -93,6 +93,17 @@ export interface JsonRpcResponse {
 	};
 }
 
+export interface Account {
+	name: string;
+}
+
 export interface EIP1193Provider {
 	request(args: RequestArguments): Promise<unknown>;
+}
+
+export interface Web3Provider {
+	sign(value: string): Promise<string>;
+	encrypt(value: string): Promise<string>;
+	decrypt(value: string): Promise<string>;
+	getAccounts(): Promise<Account[]>;
 }
