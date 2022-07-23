@@ -60,6 +60,6 @@
 	},
 	"dependencies": {
 		"@blockcore/coininfo": "^5.2.2",
-		"@blockcore/dns": "^0.0.7"
+		"@blockcore/dns": "^0.0.8"
 	}
 }

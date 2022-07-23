@@ -1,15 +1,13 @@
 import { Address, ChainListEntry, RichListEntry, Supply, WalletListEntry } from './types.js';
-import { WebRequest, BlockcoreDns, DnsListEntry, ServiceListEntry } from '@blockcore/dns';
+import { WebRequest, BlockcoreDns, ServiceListEntry } from '@blockcore/dns';
 
 export class IndexerProvider {
 	private dns: BlockcoreDns;
-	private nameservers: DnsListEntry[] = [];
-	private services: ServiceListEntry[] = [];
-	private currentServices: ServiceListEntry[] = [];
 	private network = 'STRAX'; // Should we default to BTC?
+	private currentServices: ServiceListEntry[] = [];
 
 	public constructor() {
-		this.dns = new BlockcoreDns('');
+		this.dns = new BlockcoreDns();
 	}
 
 	setNetwork(network: string) {
@@ -17,41 +15,14 @@ export class IndexerProvider {
 		this.filterServices();
 	}
 
-	filterServices() {
-		this.currentServices = this.services.filter((s) => s.symbol === this.network && s.online === true);
+	private filterServices() {
+		this.currentServices = this.dns.getOnlineServicesByNetwork(this.network);
 	}
 
 	/** Attempts to load the latest status of all services from all known nameservers. */
 	async load() {
-		this.nameservers = await BlockcoreDns.getDnsServers();
-
-		const servicesMap = new Map();
-
-		for (let i = 0; i < this.nameservers.length; i++) {
-			const nameserver = this.nameservers[i];
-
-			if (!nameserver) {
-				continue;
-			}
-
-			this.dns.setActiveServer(nameserver.url);
-
-			const services = await this.dns.getServicesByType('Indexer');
-
-			services.forEach((item) => servicesMap.set(item.domain, { ...servicesMap.get(item.domain), ...item }));
-		}
-
-		this.services = Array.from(servicesMap.values());
-
+		await this.dns.load();
 		this.filterServices();
-	}
-
-	getNameServers() {
-		return this.nameservers;
-	}
-
-	async getIndexersByNetwork(network: string) {
-		return this.dns.getServicesByTypeAndNetwork('Indexer', network);
 	}
 
 	on(event: string, callback: unknown) {
