@@ -1,5 +1,3 @@
-import fetch, { Response } from 'node-fetch';
-
 export class WebRequest {
 	public static async fetchText(url: string): Promise<string> {
 		const response = await WebRequest.fetchUrl(url);

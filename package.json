@@ -9,7 +9,7 @@
 		"lib/**/*"
 	],
 	"engines": {
-		"node": ">=14.16"
+		"node": ">=18.*"
 	},
 	"scripts": {
 		"build": "tsc",
@@ -60,7 +60,6 @@
 	},
 	"dependencies": {
 		"@blockcore/coininfo": "^5.2.2",
-		"@blockcore/dns": "^0.0.5",
-		"node-fetch": "^3.2.9"
+		"@blockcore/dns": "^0.0.6"
 	}
 }
