@@ -1,3 +1,10 @@
+## <small>0.0.9 (2022-07-23)</small>
+
+* Update IndexerProvider with changes from Blockcore DNS JS. ([4d7e8ee](https://github.com/block-core/blockcore-provider/commit/4d7e8ee))
+* Update version and changelog ([3518563](https://github.com/block-core/blockcore-provider/commit/3518563))
+
+
+
 ## <small>0.0.8 (2022-07-23)</small>
 
 * Set major version for node setup ([5c77248](https://github.com/block-core/blockcore-provider/commit/5c77248))
