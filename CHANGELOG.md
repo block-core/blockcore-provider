@@ -1,3 +1,11 @@
+## <small>0.0.8 (2022-07-23)</small>
+
+* Set major version for node setup ([5c77248](https://github.com/block-core/blockcore-provider/commit/5c77248))
+* Update version and changelog ([815a8ab](https://github.com/block-core/blockcore-provider/commit/815a8ab))
+* Use WebRequest from DNS package ([85151c4](https://github.com/block-core/blockcore-provider/commit/85151c4))
+
+
+
 ## <small>0.0.7 (2022-07-23)</small>
 
 * Add some basic code for signing API ([e475f9b](https://github.com/block-core/blockcore-provider/commit/e475f9b))
