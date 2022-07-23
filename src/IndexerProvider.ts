@@ -1,6 +1,5 @@
 import { Address, ChainListEntry, RichListEntry, Supply, WalletListEntry } from './types.js';
-import { BlockcoreDns, DnsListEntry, ServiceListEntry } from '@blockcore/dns';
-import { WebRequest } from './Request.js';
+import { WebRequest, BlockcoreDns, DnsListEntry, ServiceListEntry } from '@blockcore/dns';
 
 export class IndexerProvider {
 	private dns: BlockcoreDns;
