@@ -1,3 +1,11 @@
+## <small>0.0.7 (2022-07-23)</small>
+
+* Add some basic code for signing API ([e475f9b](https://github.com/block-core/blockcore-provider/commit/e475f9b))
+* Update version and changelog ([0d0f76c](https://github.com/block-core/blockcore-provider/commit/0d0f76c))
+* Upgrade dependency on Node.js 18 that has native fetch support ([04be842](https://github.com/block-core/blockcore-provider/commit/04be842))
+
+
+
 ## <small>0.0.6 (2022-07-22)</small>
 
 * Add @blockcore/coininfo to provider ([d1c8276](https://github.com/block-core/blockcore-provider/commit/d1c8276))

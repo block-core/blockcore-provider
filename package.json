@@ -1,7 +1,7 @@
 {
 	"name": "@blockcore/provider",
-	"version": "0.0.7",
-	"description": "",
+	"version": "0.0.8",
+	"description": "Multi-Chain Web Provider for Blockcore",
 	"type": "module",
 	"exports": "./lib/index.js",
 	"types": "./lib/index.d.ts",
