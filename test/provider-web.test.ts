@@ -12,30 +12,30 @@ const createInstance = async () => {
 	return webProvider;
 };
 
-test.serial('request: should get permissions', async (t) => {
-	let webProvider = await createInstance();
+// test.serial('request: should get permissions', async (t) => {
+// 	let webProvider = await createInstance();
 
-	const response = await webProvider.request({
-		method: 'wallet_getPermissions',
-	});
+// 	const response = await webProvider.request({
+// 		method: 'wallet_getPermissions',
+// 	});
 
-	t.assert(response != null);
-});
+// 	t.assert(response != null);
+// });
 
-test.serial('request: should request permissions', async (t) => {
-	let webProvider = await createInstance();
+// test.serial('request: should request permissions', async (t) => {
+// 	let webProvider = await createInstance();
 
-	const response = await webProvider.request({
-		method: 'wallet_requestPermissions',
-		params: [
-			{
-				eth_accounts: {},
-			},
-		],
-	});
+// 	const response = await webProvider.request({
+// 		method: 'wallet_requestPermissions',
+// 		params: [
+// 			{
+// 				eth_accounts: {},
+// 			},
+// 		],
+// 	});
 
-	t.assert(response != null);
-});
+// 	t.assert(response != null);
+// });
 
 test.serial('should use indexer through the WebProvider', async (t) => {
 	let webProvider = await createInstance();

@@ -17,38 +17,38 @@ export class BlockcoreProvider {
 	// 	this.baseUrl = provider;
 	// }
 
-	on(event: string, callback: unknown) {
-		console.log(event, callback);
-		// "accountsChanged"
-		// "chainChanged"
-		// "networkChanged"
-	}
+	// on(event: string, callback: unknown) {
+	// 	console.log(event, callback);
+	// 	// "accountsChanged"
+	// 	// "chainChanged"
+	// 	// "networkChanged"
+	// }
 
-	getAccounts() {
-		return null;
-	}
+	// getAccounts() {
+	// 	return null;
+	// }
 
-	chainId() {
-		return null;
-	}
+	// chainId() {
+	// 	return null;
+	// }
 
-	sendTransaction() {
-		return null;
-	}
+	// sendTransaction() {
+	// 	return null;
+	// }
 
-	signTransaction() {
-		return null;
-	}
+	// signTransaction() {
+	// 	return null;
+	// }
 
-	sign() {
-		return null;
-	}
+	// sign() {
+	// 	return null;
+	// }
 
-	async signTypedData(params?: unknown[] | object) {
-		console.log('SIGN DATA WITH PARAMS:', params);
+	// async signTypedData(params?: unknown[] | object) {
+	// 	console.log('SIGN DATA WITH PARAMS:', params);
 
-		return {};
-	}
+	// 	return {};
+	// }
 
 	// public setNetwork(network: string): void {
 	// 	this.baseUrl = this.getNetworkUrl(network);
