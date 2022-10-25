@@ -37,19 +37,32 @@ npm install @blockcore/provider
 ```ts
 import { WebProvider } from "@blockcore/provider";
 
-let webProvider = await WebProvider.Create();
-webProvider.setNetwork('BTC');
+// This will perform DNS lookup and indexer queries to check online statuses:
+const webProvider = await WebProvider.Create();
+webProvider.setNetwork('CITY');
 
-const response = await webProvider.request({
-  method: 'wallet_getPermissions',
-});
+const block = await provider.indexer.getBlockByIndex('1');
+console.log('Block:', block);
 
-const result: any = await webProvider.indexer.getCirculatingSupply();
+// Without any key, user can pick any account they want:
+const signing1 = await provider.request({ method: "signMessage", params: [{ key: "CdnpNqSeqaXBMVnY1e13Ksijgr6FyWPM9J", message: 'Hello World!' }] });
+console.log('Signing1:', signing1);
+
+// The key can be provided if user previously performed a signing request and the web app persisted the selected key.
+const signing2 = await provider.request({ method: "signMessage", params: [{ message: 'Hello World!' }] });
+console.log('Signing2:', signing2);
+
+const supply: any = await webProvider.indexer.getCirculatingSupply();
+console.log('Supply:', supply);
 ```
 
 Screen recording demonstrating the use of the Blockcore Web Provider:
 
 ![](doc/blockcore-provider.gif)
+
+ ## TODO
+
+ The interaction with the wallet is currently done through the generic `request` API, this provider will add typed methods for all the supported features within the wallet provider (in-page provider loaded by the wallet extension).
 
 ## Development
 
