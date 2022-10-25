@@ -1,3 +1,11 @@
+## <small>0.0.11 (2022-10-25)</small>
+
+* Update dependencies ([7d403d1](https://github.com/block-core/blockcore-provider/commit/7d403d1))
+* Update examples in README ([3a01cb0](https://github.com/block-core/blockcore-provider/commit/3a01cb0))
+* Update version and changelog ([55a2545](https://github.com/block-core/blockcore-provider/commit/55a2545))
+
+
+
 ## <small>0.0.10 (2022-10-25)</small>
 
 * Forward requests from provider to wallet provider ([1dcbb25](https://github.com/block-core/blockcore-provider/commit/1dcbb25))
