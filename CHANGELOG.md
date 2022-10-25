@@ -1,3 +1,10 @@
+## <small>0.0.10 (2022-10-25)</small>
+
+* Forward requests from provider to wallet provider ([1dcbb25](https://github.com/block-core/blockcore-provider/commit/1dcbb25))
+* Update version and changelog ([af7dd23](https://github.com/block-core/blockcore-provider/commit/af7dd23))
+
+
+
 ## <small>0.0.9 (2022-07-23)</small>
 
 * Update IndexerProvider with changes from Blockcore DNS JS. ([4d7e8ee](https://github.com/block-core/blockcore-provider/commit/4d7e8ee))
