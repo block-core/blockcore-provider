@@ -3,7 +3,13 @@ import { WebRequest, BlockcoreDns, ServiceListEntry } from '@blockcore/dns';
 
 export class IndexerProvider {
 	private dns: BlockcoreDns;
-	private network = 'STRAX'; // Should we default to BTC?
+	// private network = 'STRAX'; // Should we default to BTC?
+	#network = 'STRAX';
+
+	public get network(): string {
+		return this.#network;
+	}
+
 	private currentServices: ServiceListEntry[] = [];
 
 	public constructor() {
@@ -11,7 +17,7 @@ export class IndexerProvider {
 	}
 
 	setNetwork(network: string) {
-		this.network = network;
+		this.#network = network;
 		this.filterServices();
 	}
 
