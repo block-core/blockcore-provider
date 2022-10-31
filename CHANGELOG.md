@@ -1,3 +1,10 @@
+## <small>0.0.12 (2022-10-31)</small>
+
+* Make the network public accessible ([8e8e34f](https://github.com/block-core/blockcore-provider/commit/8e8e34f))
+* Update version and changelog ([dc70be6](https://github.com/block-core/blockcore-provider/commit/dc70be6))
+
+
+
 ## <small>0.0.11 (2022-10-25)</small>
 
 * Update dependencies ([7d403d1](https://github.com/block-core/blockcore-provider/commit/7d403d1))
