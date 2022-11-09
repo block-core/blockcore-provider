@@ -1,13 +1,14 @@
 import { RequestArguments, EIP1193Provider } from './types.js';
 import { BlockcoreProvider } from './BlockcoreProvider.js';
 import { IndexerProvider } from './IndexerProvider.js';
+import { IdentityProvider } from './IdentityProvider.js';
 
 export class WebProvider implements EIP1193Provider {
 	// private baseUrl: string;
 	// private provider: BlockcoreProvider;
 	// private indexer: IndexerProvider;
 
-	private constructor(public indexer: IndexerProvider, private provider: BlockcoreProvider) {
+	private constructor(public indexer: IndexerProvider, private provider: BlockcoreProvider, public did?: IdentityProvider) {
 		// baseUrlOrNetwork = baseUrlOrNetwork || 'CITY';
 		// if (baseUrlOrNetwork.indexOf('http') > -1) {
 		// 	this.baseUrl = baseUrlOrNetwork;
@@ -16,6 +17,10 @@ export class WebProvider implements EIP1193Provider {
 		// }
 		// this.provider = new BlockcoreProvider(this.baseUrl);
 		// this.indexer = new IndexerProvider();
+
+		if (!did) {
+			did = new IdentityProvider();
+		}
 	}
 
 	static async Create(indexer?: IndexerProvider) {
