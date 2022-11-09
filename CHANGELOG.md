@@ -1,3 +1,14 @@
+## <small>0.0.13 (2022-11-09)</small>
+
+* Add did.supportedMethods() to provider ([b30ab37](https://github.com/block-core/blockcore-provider/commit/b30ab37))
+* Add VerifiableCredentialProvider ([a5596a1](https://github.com/block-core/blockcore-provider/commit/a5596a1))
+* Change initialization setup for the provider ([1430877](https://github.com/block-core/blockcore-provider/commit/1430877))
+* Extend the IdentityProvider with methods from the TBD RFC ([f46d75d](https://github.com/block-core/blockcore-provider/commit/f46d75d))
+* Minor refactoring and cleanup ([c4a6360](https://github.com/block-core/blockcore-provider/commit/c4a6360))
+* Update version and changelog ([2c73ee6](https://github.com/block-core/blockcore-provider/commit/2c73ee6))
+
+
+
 ## <small>0.0.12 (2022-10-31)</small>
 
 * Make the network public accessible ([8e8e34f](https://github.com/block-core/blockcore-provider/commit/8e8e34f))
