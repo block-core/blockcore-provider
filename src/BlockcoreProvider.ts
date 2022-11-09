@@ -1,69 +1,33 @@
 import coininfo from '@blockcore/coininfo';
+import { RequestArguments } from './types.js';
 
 /** Provider that interacts with the wallet. */
 export class BlockcoreProvider {
-	// private baseUrl: string;
-
-	public constructor() {
-		// baseUrlOrNetwork = baseUrlOrNetwork || 'CITY';
-		// if (baseUrlOrNetwork.indexOf('http') > -1) {
-		// 	this.baseUrl = baseUrlOrNetwork;
-		// } else {
-		// 	this.baseUrl = this.getNetworkUrl(baseUrlOrNetwork);
-		// }
-	}
-
-	// setProvider(provider: string) {
-	// 	this.baseUrl = provider;
-	// }
-
-	// on(event: string, callback: unknown) {
-	// 	console.log(event, callback);
-	// 	// "accountsChanged"
-	// 	// "chainChanged"
-	// 	// "networkChanged"
-	// }
-
-	// getAccounts() {
-	// 	return null;
-	// }
-
-	// chainId() {
-	// 	return null;
-	// }
-
-	// sendTransaction() {
-	// 	return null;
-	// }
-
-	// signTransaction() {
-	// 	return null;
-	// }
-
-	// sign() {
-	// 	return null;
-	// }
-
-	// async signTypedData(params?: unknown[] | object) {
-	// 	console.log('SIGN DATA WITH PARAMS:', params);
-
-	// 	return {};
-	// }
-
-	// public setNetwork(network: string): void {
-	// 	this.baseUrl = this.getNetworkUrl(network);
-	// }
-
-	// public getNetworkUrl(network: string): string {
-	// 	return `https://${network.toLowerCase()}.indexer.blockcore.net`;
-	// }
-
-	// public getBaseUrl(): string {
-	// 	return this.baseUrl;
-	// }
-
 	/** Returns network definition from local package, no external requests. */
 	public getNetwork(network: string) {
 		return coininfo(network);
+	}
+
+	// eip-1193: https://github.com/ethereum/EIPs/blob/master/EIPS/eip-1193.md
+	/** Use this method to send a request directly to the wallet extension. */
+	public async request(args: RequestArguments): Promise<unknown> {
+		const gthis = globalThis as any;
+		const blockcore = gthis.blockcore;
+
+		if (!blockcore) {
+			alert('The Blockcore provider is not available. Unable to continue.');
+			return;
+		}
+
+		let result;
+
+		try {
+			result = await blockcore.request(args);
+		} catch (err: any) {
+			console.error(err);
+			result = 'Error: ' + err.message;
+		}
+
+		return result;
 	}
 }

@@ -8,8 +8,8 @@ export class IdentityProvider {
 	// https://github.com/TBD54566975/janky-wallet/blob/main/rfc/web5-did-authn.md
 	/** Initiates DID-based passwordless registration / login flows */
 	async authn() {
-		throw Error('Not implemented.');
-	}
+        
+    }
 
 	// https://github.com/TBD54566975/janky-wallet/blob/main/rfc/web5-did-request.md
 	async request() {
