@@ -15,8 +15,7 @@ export class BlockcoreProvider {
 		const blockcore = gthis.blockcore;
 
 		if (!blockcore) {
-			alert('The Blockcore provider is not available. Unable to continue.');
-			return;
+			throw Error('The Blockcore provider is not available. Unable to continue.');
 		}
 
 		let result;
